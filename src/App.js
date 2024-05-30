@@ -1,24 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import FetchComponent from "./components/FetchComponent";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { LOGIN } from "./redux/actions";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 function App() {
+  axios.defaults.withCredentials = true;
+  axios.defaults.withXSRFToken = true;
+
+  const dispatch = useDispatch();
+  const [loaded, setLoaded] = useState(false);
+
+  // useEffect(() => {
+  //   axios("/api/user")
+  //     .then((res) =>
+  //       dispatch({
+  //         type: LOGIN,
+  //         payload: res.data,
+  //       })
+  //     )
+  //     .catch((err) => console.log(err))
+  //     .finally(() => setLoaded(true));
+  // }, [dispatch]);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    // loaded && (
+    //   <BrowserRouter>
+    //     <div className="container">
+    //       <Routes>
+    //         {/* rotte accessibili da tutti */}
+    //         <Route path="/" element={<FetchComponent />} />
+    //       </Routes>
+    //     </div>
+
+    //     {/* <Footer /> */}
+    //   </BrowserRouter>
+    // )
+    <FetchComponent />
   );
 }
 
