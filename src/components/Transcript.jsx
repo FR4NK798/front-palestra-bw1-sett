@@ -4,34 +4,60 @@ import { useNavigate } from "react-router-dom";
 
 const Transcript = () => {
   const navigate = useNavigate();
-  const [exams, setExams] = useState([]);
+  const [course, setCourse] = useState([]);
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/api/v1/courses")
-      .then((res) => setExams(res.data.data))
+      .get("/api/v1/transcript")
+      .then((data) => {
+        setCourse(data.data.data.courses);
+        console.log("data", data.data.data);
+      })
       .catch((err) => navigate("/"));
   }, []);
 
+  console.log("course", course);
+
   return (
     <div>
-      <h1>Libretto degli esami</h1>
-      <table class="table">
+      <h1>Lista corsi prenotati</h1>
+      <table className="table">
         <thead>
           <tr>
-            <th scope="col">Subject</th>
-            <th scope="col">Date</th>
-            <th scope="col">Mark</th>
+            <th scope="col">Stanza</th>
+            <th scope="col">Corso</th>
+            <th scope="col">Data</th>
+            <th scope="col">Inizio</th>
+            <th scope="col">Fine</th>
+            <th scope="col">Stato</th>
           </tr>
         </thead>
         <tbody>
-          {exams.map((exam) => (
-            <tr>
-              <td>{exam.course.subject.name}</td>
-              <td>{exam.date}</td>
-              <td>{exam.pivot.mark}</td>
-            </tr>
-          ))}
+          {course && (
+            <>
+              {course.map((activity, i) => (
+                // <div key={i}>
+                <tr key={i}>
+                  <td>{activity.location}</td>
+                  <td>{activity.activity.name}</td>
+                  <td>{activity.slot.day}</td>
+                  <td>{activity.slot.start}</td>
+                  <td>{activity.slot.end}</td>
+                  {activity.pivot.status === "reject" ? (
+                    <td bg="danger" className="btn btn-danger">
+                      Rifiutato
+                    </td>
+                  ) : activity.pivot.status === "pending" ? (
+                    <td className="btn btn-secondary">In attesa di conferma</td>
+                  ) : (
+                    <td className="btn-success">Accettato</td>
+                  )}
+                  <td></td>
+                </tr>
+                // </div>
+              ))}
+            </>
+          )}
         </tbody>
       </table>
     </div>

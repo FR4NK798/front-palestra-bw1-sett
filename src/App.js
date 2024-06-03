@@ -47,7 +47,7 @@ function App() {
             {/* rotte accessibili solo se sei loggato */}
             <Route element={<ProtectedRoutes />}>
               {/* <Route path="/faculties/:id" element={<FacultyPage />} /> */}
-              {/* <Route path="/faculty" element={<Transcript />} /> */}
+              <Route path="/faculty" element={<Transcript />} />
 
               <Route path="/courses/:id" element={<FacultyPage />} />
             </Route>

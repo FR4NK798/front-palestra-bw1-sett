@@ -39,7 +39,7 @@ const FacultyPage = () => {
               <li>{slots.end}</li>
             </ul>
           </div>
-          <div class="btn btn-info">
+          <div className="btn btn-info">
             <Link to={`/courses/${course.id}`}>Prenota</Link>
           </div>
         </div>
