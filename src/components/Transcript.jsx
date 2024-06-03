@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Button from "react-bootstrap/Button";
 
 const Transcript = () => {
   const navigate = useNavigate();
@@ -44,13 +45,11 @@ const Transcript = () => {
                   <td>{activity.slot.start}</td>
                   <td>{activity.slot.end}</td>
                   {activity.pivot.status === "reject" ? (
-                    <td bg="danger" className="btn btn-danger">
-                      Rifiutato
-                    </td>
+                    <Button variant="danger">Rifiutato</Button>
                   ) : activity.pivot.status === "pending" ? (
-                    <td className="btn btn-secondary">In attesa di conferma</td>
+                    <Button variant="secondary">In attesa di conferma</Button>
                   ) : (
-                    <td className="btn-success">Accettato</td>
+                    <Button variant="success">Accettato</Button>
                   )}
                   <td></td>
                 </tr>

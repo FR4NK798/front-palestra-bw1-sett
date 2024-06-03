@@ -11,7 +11,7 @@ const Register = () => {
     name: "",
     email: "",
     password: "",
-    // password_confirmation: '',
+    password_confirmation: "",
     // profile_img: '',
   });
 
@@ -33,20 +33,17 @@ const Register = () => {
     ev.preventDefault();
     // gli indirizzi relativi, con il proxy attivo fanno la richiesta a http://localhost:8000/login mascherandolo come indirizzo nello stesso host di react (che nel nostro caso è http://localhost:3000/login)
     axios
-      .get("http://localhost:8000/sanctum/csrf-cookie")
+      .get("/sanctum/csrf-cookie")
       .then(() => {
         const body = new FormData();
         body.append("name", formData.name);
         body.append("email", formData.email);
         body.append("password", formData.password);
-        // body.append(
-        //     'password_confirmation',
-        //     formData.password_confirmation
-        // );
+        body.append("password_confirmation", formData.password_confirmation);
         // body.append('profile_img', profileImage); // TODO: verify this
-        return axios.post("http://localhost:8000/register", body);
+        return axios.post("/register", body);
       })
-      .then(() => axios.get("http://localhost:8000/api/user"))
+      .then(() => axios.get("/api/user"))
       .then((res) => {
         // salvare i dati dello user nel Redux state
         dispatch({
@@ -102,19 +99,19 @@ const Register = () => {
           value={formData.password}
         />
       </div>
-      {/* <div className="mb-3">
-                <label htmlFor="password_confirmation" className="form-label">
-                    Conferma password
-                </label>
-                <input
-                    type="password"
-                    className="form-control"
-                    id="password_confirmation"
-                    name="password_confirmation"
-                    onChange={(ev) => updateInputValue(ev)}
-                    value={formData.password_confirmation}
-                />
-            </div> */}
+      <div className="mb-3">
+        <label htmlFor="password_confirmation" className="form-label">
+          Conferma password
+        </label>
+        <input
+          type="password"
+          className="form-control"
+          id="password_confirmation"
+          name="password_confirmation"
+          onChange={(ev) => updateInputValue(ev)}
+          value={formData.password_confirmation}
+        />
+      </div>
       {/* <div className="mb-3">
                 <label htmlFor="profile_img" className="form-label">
                     Profile image
