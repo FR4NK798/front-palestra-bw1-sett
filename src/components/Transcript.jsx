@@ -1,11 +1,26 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { parsePath, useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 
+import { useDispatch, useSelector } from "react-redux";
+import { LOGIN } from "../redux/actions";
+
 const Transcript = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [course, setCourse] = useState([]);
+  const [refesh, setRefesh] = useState(false);
+
+  const user = useSelector((state) => state.user);
+
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    password_confirmation: "",
+    // profile_img: '',
+  });
 
   useEffect(() => {
     axios
@@ -15,9 +30,30 @@ const Transcript = () => {
         console.log("data", data.data.data);
       })
       .catch((err) => navigate("/"));
-  }, []);
 
-  console.log("course", course);
+    console.log("course", course);
+    console.log("id", user.id);
+    // setUserId(user.id);
+    // console.log("userId", userId);
+  }, [refesh]);
+
+  // const element = document.querySelector("#put-request .date-updated");
+  // const article = { title: "Axios PUT Request Example" };
+  // axios
+  //   .put("https://reqres.in/api/articles/1", article)
+  //   .then((response) => (element.innerHTML = response.data.updatedAt));
+
+  // let id = user.id;
+  // console.log("variabile id", id);
+
+  const annulla = (id) => {
+    console.log("premuto annulla");
+
+    // gli indirizzi relativi, con il proxy attivo fanno la richiesta a http://localhost:8000/login mascherandolo come indirizzo nello stesso host di react (che nel nostro caso è http://localhost:3000/login)
+    axios.put(`/api/v1/course/${id}/edit`).then((res) => {
+      setRefesh(!refesh);
+    });
+  };
 
   return (
     <div>
@@ -51,7 +87,14 @@ const Transcript = () => {
                   ) : (
                     <Button variant="success">Accettato</Button>
                   )}
-                  <td></td>
+                  <Button
+                    variant="success"
+                    onClick={() => {
+                      annulla(activity.id);
+                    }}
+                  >
+                    Annulla
+                  </Button>
                 </tr>
                 // </div>
               ))}

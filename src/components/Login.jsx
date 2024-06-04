@@ -22,9 +22,9 @@ const Login = () => {
     ev.preventDefault();
     // gli indirizzi relativi, con il proxy attivo fanno la richiesta a http://localhost:8000/login mascherandolo come indirizzo nello stesso host di react (che nel nostro caso è http://localhost:3000/login)
     axios
-      .get("http://localhost:8000/sanctum/csrf-cookie")
-      .then(() => axios.post("http://localhost:8000/login", formData))
-      .then(() => axios.get("http://localhost:8000/api/user"))
+      .get("/sanctum/csrf-cookie")
+      .then(() => axios.post("/login", formData))
+      .then(() => axios.get("/api/user"))
       .then((res) => {
         // salvare i dati dello user nel Redux state
         dispatch({

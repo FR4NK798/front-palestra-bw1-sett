@@ -21,6 +21,8 @@ const TopNav = () => {
       .then(() => navigate("/login"));
   };
 
+  console.log("user nav", user);
+
   return (
     <Navbar className="bg-body-tertiary">
       <Container>
